@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'vendor',
+    'menu',
 ]
 
 MIDDLEWARE = [
@@ -146,21 +147,10 @@ MESSAGE_TAGS = {
 
 # Email configuration
 
-# EMAIL_HOST = config('EMAIL_HOST')
-# EMAIL_PORT = config('EMAIL_PORT', cast=int)
-# EMAIL_HOST_USER = config('EMAIL_HOST_USER')   #email
-# EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   #App password generated for login user. Requires two factors authentication
-# EMAIL_USE_TLS = True
-
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'nskomkardighe@gmail.com'   #email
-EMAIL_HOST_PASSWORD = 'gydm owdh beiz ligk'   #App password generated for login user. Requires two factors authentication
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_PORT = config('EMAIL_PORT', cast=int)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')   #email
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   #App password generated for login user. Requires two factors authentication
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'YummyTummy Marketplace <nskomkardighe@gmail.com>'
 
-
-#  API KEY
-
-GOOGLE_API_KEY = 'AIzaSyBtzH6tKRGBg2O62hOGTKcWuL8ir91rKHw'
 
