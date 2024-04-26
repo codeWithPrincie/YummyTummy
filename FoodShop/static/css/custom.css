@@ -19,3 +19,12 @@
     font-size: 15px;
     cursor: pointer;
 }
+
+.button-alert {
+    background-color: red !important; /* Red background */
+    color: white !important; /* White text */
+}
+
+.button-alert:hover {
+    background-color: #e60000 !important; /* Darker red on hover */
+}
