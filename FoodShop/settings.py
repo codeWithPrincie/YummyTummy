@@ -157,3 +157,4 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   #App password generated fo
 EMAIL_USE_TLS = True
 
 
+
