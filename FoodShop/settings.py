@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'vendor',
     'menu',
     'marketplace',
+    'customers',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +72,7 @@ TEMPLATES = [
                 'accounts.context_processors.get_google_api',
                 'marketplace.context_processors.get_cart_counter',
                 'marketplace.context_processors.get_cart_amount',
+                'accounts.context_processors.get_user_profile',
             ],
         },
     },
@@ -155,6 +157,5 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')   #email
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   #App password generated for login user. Requires two factors authentication
 EMAIL_USE_TLS = True
-
 
 
