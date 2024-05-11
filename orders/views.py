@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
 
 from marketplace.models import Cart
@@ -7,10 +7,12 @@ from .models import Order, OrderedFood, Payment
 from .forms import OrderForm
 import simplejson as json
 from .utils import generate_order_number
+from accounts.utils import send_notification
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
-
+@login_required(login_url='login')
 def place_order(request):
     cart_items = Cart.objects.filter(user=request.user).order_by('created_at')
     cart_count = cart_items.count()
@@ -54,6 +56,7 @@ def place_order(request):
     return render(request, 'orders/place_order.html')
 
 
+@login_required(login_url='login')
 def payments(request):
     # check if the request is ajax or not
     if request.is_ajax() and request.method == 'POST': 
@@ -93,8 +96,62 @@ def payments(request):
             
     
         # SEND ORDER CONFIRMATION EMAIL TO CUSTOMER
+        mail_subject = 'Thank you for ordering with us.'
+        mail_template = 'orders/order_confirmation_email.html'
+        context = {
+            'user':request.user,
+            'order': order,
+            'to_email': order.email,
+        }
+        send_notification(mail_subject, mail_template, context)
     
         # SEND ORDER RECEIVED EMAIL TO VENDOR
+        mail_subject = 'You have received a new order'
+        mail_template = 'orders/new_order_received.html'
+        to_emails = []
+        for i in cart_items:
+            if i.fooditem.vendor.user.email not in to_emails:
+                to_emails.append(i.fooditem.vendor.user.email)
+        print(to_emails)
+            
+        context = {
+            'order': order,
+            'to_email': to_emails,
+        }
+        send_notification(mail_subject, mail_template, context)
     
         # CLEAR THE CART AFTER SUCCESSFUL  PAYMENT
+        cart_items.delete()
+        
+        response = {
+            'order_number': order_number,
+            'transaction_id': transaction_id,
+        }
+        
+        return JsonResponse(response)
+        
     return HttpResponse('Payments View')
+
+def order_complete(request):
+    order_number = request.GET.get('order_no')
+    transaction_id = request.GET.get('trans_id')
+    
+    try:
+        order = Order.objects.get(order_number=order_number, payment__transaction_id=transaction_id, is_ordered=True)
+        ordered_food = OrderedFood.objects.filter(order=order)
+        subtotal = 0
+        for item in ordered_food:
+            subtotal += (item.price * item.quantity)
+            
+        tax_data = json.loads(order.tax_data)
+            
+        context = {
+            'order': order,
+            'ordered_food': ordered_food,
+            'subtotal': subtotal,
+            'tax_data': tax_data,
+        }
+        return render(request, 'orders/order_complete.html', context)
+    except:
+        return redirect('home')
+    
