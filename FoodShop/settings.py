@@ -161,7 +161,6 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   #App password generated fo
 EMAIL_USE_TLS = True
 
 
-
 #  API KEY
 
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
@@ -169,3 +168,6 @@ GOOGLE_API_KEY = config('GOOGLE_API_KEY')
 PAYPAL_CLIENT_ID = config('PAYPAL_CLIENT_ID')
 
 SECURE_CROSS_ORIGIN_OPENER_POLICY = 'same-origin-allow-popups'
+
+RZP_KEY_ID = config('RZP_KEY_ID')
+RZP_KEY_SECRET = config('RZP_KEY_SECRET')
