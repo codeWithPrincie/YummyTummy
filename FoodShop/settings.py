@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'orders.request_object.RequestObjectMiddleware', #CUSTOM MIDDLEWARE CREATED TO ACCESS THE REQUEST OBJECT IN MODELS.PY
 ]
 
 ROOT_URLCONF = 'FoodShop.urls'
@@ -159,8 +160,6 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')   #email
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')   #App password generated for login user. Requires two factors authentication
 EMAIL_USE_TLS = True
-
-
 
 #  API KEY
 
